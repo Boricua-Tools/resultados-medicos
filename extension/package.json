@@ -4,6 +4,7 @@
   "description": "Firefox extension to auto-fill patient forms on MisResultados",
   "scripts": {
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "web-ext lint",
     "build": "web-ext build",
     "start": "web-ext run",
