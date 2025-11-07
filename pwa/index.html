@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Accede fácilmente a tus resultados médicos de laboratorio" />
+    <meta name="theme-color" content="#4CAF50" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="MisResultados" />
+    <title>MisResultados Helper</title>
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header class="app-header">
+        <h1>
+          <span class="icon">📋</span>
+          <span data-i18n="app.title">MisResultados Helper</span>
+        </h1>
+      </header>
+
+      <!-- Main Content -->
+      <main class="app-main">
+        <!-- Patient Setup Screen (shown first time) -->
+        <section id="setup-screen" class="screen">
+          <div class="container">
+            <h2 data-i18n="setup.title">Configuración de Paciente</h2>
+
+            <form id="patient-form" class="patient-form">
+              <div class="field-group">
+                <label for="patient-name" data-i18n="setup.nameLabel">
+                  Apellidos completos
+                </label>
+                <input
+                  type="text"
+                  id="patient-name"
+                  name="patient-name"
+                  data-i18n-placeholder="setup.namePlaceholder"
+                  placeholder="Apellidos del paciente"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+
+              <div class="field-group">
+                <label for="birth-day" data-i18n="setup.birthDateLabel">
+                  Fecha de nacimiento
+                </label>
+                <div class="date-inputs">
+                  <select id="birth-day" name="birth-day" required aria-label="Día">
+                    <option value="" data-i18n="setup.dayPlaceholder">DD</option>
+                  </select>
+                  <select id="birth-month" name="birth-month" required aria-label="Mes">
+                    <option value="" data-i18n="setup.monthPlaceholder">MM</option>
+                  </select>
+                  <select id="birth-year" name="birth-year" required aria-label="Año">
+                    <option value="" data-i18n="setup.yearPlaceholder">YYYY</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" data-i18n="setup.saveButton">
+                Guardar
+              </button>
+
+              <p class="privacy-note">
+                <span class="icon">ℹ️</span>
+                <span data-i18n="setup.privacyNote">
+                  Esta información se guarda solo en tu dispositivo
+                </span>
+              </p>
+            </form>
+          </div>
+        </section>
+
+        <!-- Fetch Results Screen (main screen) -->
+        <section id="fetch-screen" class="screen hidden">
+          <div class="container">
+            <!-- Patient Info -->
+            <div class="patient-info">
+              <div class="patient-info-content">
+                <p class="patient-name" id="display-patient-name">—</p>
+                <p class="patient-dob">
+                  <span class="icon">📅</span>
+                  <span id="display-patient-dob">—</span>
+                </p>
+              </div>
+              <button
+                id="edit-patient-btn"
+                class="btn-icon"
+                aria-label="Editar información del paciente"
+                data-i18n-aria-label="fetch.editPatientAriaLabel"
+              >
+                ✏️
+              </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 data-i18n="fetch.title">Buscar Resultados</h2>
+
+            <!-- Manual Entry Form -->
+            <form id="fetch-form" class="fetch-form">
+              <div class="field-group">
+                <label for="control-number" data-i18n="fetch.controlLabel">
+                  Número de Control
+                </label>
+                <input
+                  type="text"
+                  id="control-number"
+                  name="control-number"
+                  data-i18n-placeholder="fetch.controlPlaceholder"
+                  placeholder="Ej: 98765432"
+                  required
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+
+              <div class="field-group">
+                <label for="lab-license" data-i18n="fetch.licenseLabel">
+                  Licencia del Laboratorio
+                </label>
+                <input
+                  type="text"
+                  id="lab-license"
+                  name="lab-license"
+                  data-i18n-placeholder="fetch.licensePlaceholder"
+                  placeholder="Ej: 5678"
+                  required
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary" data-i18n="fetch.searchButton">
+                Buscar
+              </button>
+            </form>
+
+            <div class="or-divider">
+              <span data-i18n="fetch.orText">o pega el enlace</span>
+            </div>
+
+            <!-- Link Parsing Form -->
+            <form id="link-form" class="link-form">
+              <div class="field-group">
+                <label for="result-link" data-i18n="fetch.linkLabel">
+                  Enlace de resultados
+                </label>
+                <input
+                  type="url"
+                  id="result-link"
+                  name="result-link"
+                  data-i18n-placeholder="fetch.linkPlaceholder"
+                  placeholder="https://misresultados.com/..."
+                  inputmode="url"
+                />
+              </div>
+
+              <button type="submit" class="btn btn-secondary" data-i18n="fetch.searchFromLinkButton">
+                Buscar desde enlace
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Results List Screen -->
+        <section id="results-screen" class="screen hidden">
+          <div class="container">
+            <button id="back-btn" class="btn-back">
+              <span class="icon">←</span>
+              <span data-i18n="results.backButton">Volver</span>
+            </button>
+
+            <h2 id="results-title" data-i18n="results.title">Resultados</h2>
+            <p id="results-count" class="results-count"></p>
+
+            <div id="results-list" class="results-list">
+              <!-- Results will be dynamically inserted here -->
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="footer-content">
+          <p>
+            <a href="#" id="language-toggle" class="language-toggle">
+              English
+            </a>
+          </p>
+          <p class="footer-note">
+            <span data-i18n="footer.disclaimer">
+              Herramienta no oficial. No afiliada con misresultados.com
+            </span>
+          </p>
+        </div>
+      </footer>
+
+      <!-- Loading Overlay -->
+      <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p id="loading-text" data-i18n="loading.default">Cargando...</p>
+      </div>
+
+      <!-- Toast Notifications -->
+      <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
