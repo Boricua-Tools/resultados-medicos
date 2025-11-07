@@ -8,6 +8,8 @@ This repository contains tools I find useful for interacting with [misresultados
 
 - **[Browser Extension](./extension/)** - Firefox extension for auto-filling patient data.
 
+- **[Progressive Web App](./pwa/)** - Mobile-first web application for easy access to medical results on any browser (iOS, Android, desktop).
+
 ## Why build this?
 
  I was tired of having to clunkily re-enter my last names and date of birth every time I wanted to check my lab results. I also wanted to test out Claude Code's current capabilities, so this served as a fun weekend project to familiarize myself with the world of "supervised, agentic-first" development.
